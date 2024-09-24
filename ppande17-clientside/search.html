@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Fundraisers</title>
+</head>
+<body>
+    <h1>Search Fundraisers</h1>
+    <form id="searchForm">
+        <input type="text" id="organizer" placeholder="Organizer">
+        <input type="text" id="city" placeholder="City">
+        <input type="text" id="category" placeholder="Category ID">
+        <button type="submit">Search</button>
+    </form>
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const organizer = document.getElementById('organizer').value;
+            const city = document.getElementById('city').value;
+            const category = document.getElementById('category').value;
+
+            let url = `/api/search?organizer=${organizer}&city=${city}&category=${category}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = '';
+                    data.forEach(fundraiser => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `<h3>${fundraiser.CAPTION}</h3><p>Organizer: ${fundraiser.ORGANIZER}</p><p>Target: ${fundraiser.TARGET_FUNDING}</p><p>Raised: ${fundraiser.CURRENT_FUNDING}</p>`;
+                        resultsDiv.appendChild(div);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
