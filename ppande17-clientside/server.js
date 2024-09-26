@@ -15,6 +15,8 @@ app.get('/search', (req, res) => {
     res.sendFile(path.join(__dirname, 'search.html'));
 });
 
+//Conecting to the server 8080
+
 const port = 8080;
 app.listen(port, () => {
     console.log(`Client-side server running on port ${port}`);

@@ -8,7 +8,6 @@
 </head>
 <body>
 
-    <!-- Header with Fundme Logo -->
     <header>
         <h1>Fundme</h1>
     </header>
@@ -35,12 +34,12 @@
         document.getElementById('searchForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
 
-            // Get the input values
+            // To get the input Values
             const organizer = document.getElementById('organizer').value;
             const city = document.getElementById('city').value;
             const category = document.getElementById('category').value;
             
-            // Build   url for  api search request 
+            //    Url for  api search request 
             let url = `http://localhost:3000/api/search?organizer=${encodeURIComponent(organizer)}&city=${encodeURIComponent(city)}&category=${encodeURIComponent(category)}`;
 
             // To extract the search data 
