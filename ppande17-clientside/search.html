@@ -4,39 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Fundraisers</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <!-- Header with Fundme Logo -->
+    <header>
+        <h1>Fundme</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/search">Search Fundraisers</a></li>
+        </ul>
+    </nav>
+
     <h1>Search Fundraisers</h1>
     <form id="searchForm">
         <input type="text" id="organizer" placeholder="Organizer">
         <input type="text" id="city" placeholder="City">
-        <input type="text" id="category" placeholder="Category ID">
+        <input type="text" id="category" placeholder="Category">
         <button type="submit">Search</button>
     </form>
+
     <div id="results"></div>
 
     <script>
+        //  the event listener to the form is attached 
         document.getElementById('searchForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+            e.preventDefault(); 
+
+            // Get the input values
             const organizer = document.getElementById('organizer').value;
             const city = document.getElementById('city').value;
             const category = document.getElementById('category').value;
+            
+            // Build   url for  api search request 
+            let url = `http://localhost:3000/api/search?organizer=${encodeURIComponent(organizer)}&city=${encodeURIComponent(city)}&category=${encodeURIComponent(category)}`;
 
-            let url = `/api/search?organizer=${organizer}&city=${city}&category=${category}`;
-
+            // To extract the search data 
             fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const resultsDiv = document.getElementById('results');
-                    resultsDiv.innerHTML = '';
-                    data.forEach(fundraiser => {
-                        const div = document.createElement('div');
-                        div.innerHTML = `<h3>${fundraiser.CAPTION}</h3><p>Organizer: ${fundraiser.ORGANIZER}</p><p>Target: ${fundraiser.TARGET_FUNDING}</p><p>Raised: ${fundraiser.CURRENT_FUNDING}</p>`;
-                        resultsDiv.appendChild(div);
-                    });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error with the search request');
+                    }
+                    return response.json();
                 })
-                .catch(error => console.error('Error:', error));
+                .then(data => {
+                   
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = ''; // Clear the results
+
+                    // To show to information if data not found.
+                    if (data.length === 0) {
+                        resultsDiv.innerHTML = 'No results found for your search.';
+                    } else {
+                       
+                        data.forEach(fundraiser => {
+                            const div = document.createElement('div');
+                            div.className = "fundraiser";
+                            div.innerHTML = `<h2 class="caption">${fundraiser.CAPTION}</h2>
+                        <p><strong>Organiser:</strong> ${fundraiser.ORGANIZER}</p>
+                        <p><strong>City:</strong> ${fundraiser.CITY}</p>
+                        <p><strong>Category:</strong> ${fundraiser.CATEGORY}</p>
+                        <p><strong>Target Funding:</strong> $${fundraiser.TARGET_FUNDING} AUD</p>
+                        <p><strong>Current Funding:</strong> $${fundraiser.CURRENT_FUNDING} AUD</p>
+                        <p><strong>Status:</strong> ${fundraiser.ACTIVE ? 'Active' : 'Inactive'}</p>
+                        <button class="donate-btn">Donate Now</button>`;
+                            resultsDiv.appendChild(div);  // To show the search
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error searching fundraisers:', error);
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = 'An error occurred while searching. Please try again.';
+                });
         });
     </script>
 </body>
+
 </html>

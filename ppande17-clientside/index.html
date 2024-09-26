@@ -3,24 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crowdfunding Platform</title>
+    <title>Active Fundraisers</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to the Crowdfunding Platform</h1>
+ 
+    <header>
+        <h1>Fundme</h1>
+    </header>
+
+
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/search">Search Fundraisers</a></li>
+        </ul>
+    </nav>
+
+    <section class="about-fundme">
+        <h2>About Fundme</h2>
+        <p>Fund me is the basic Platform where we can see who have organize the campagain, from where it is been organized and also can donate to others as well. This helps to connects to the organizer with supporters to help raise money for a variety of if it is a natural disaster relief, education, or local community projects, Fundme empowers you to make a difference by doing the small contribution,</p>
+    
+        <!-- Add Buttons to give fell of websitesss -->
+        <div class="about-buttons">
+            <a href="#" class="btn">Start a Fundraiser</a>
+            <a href="/search" class="btn search-btn">Search Fundraisers</a>
+        </div>
+    </section>
+
+    <h1>Active Fundraisers</h1>
+    <div id="fundraisers"></div>
+
     <div id="fundraisers"></div>
 
     <script>
-        fetch('/api/fundraisers')
+        // Fetch active fundraisers
+        fetch('http://localhost:3000/api/fundraisers')
             .then(response => response.json())
             .then(data => {
-                const container = document.getElementById('fundraisers');
-                data.forEach(fundraiser => {
-                    const div = document.createElement('div');
-                    div.innerHTML = `<h3>${fundraiser.CAPTION}</h3><p>Organizer: ${fundraiser.ORGANIZER}</p><p>Target: ${fundraiser.TARGET_FUNDING}</p><p>Raised: ${fundraiser.CURRENT_FUNDING}</p>`;
-                    container.appendChild(div);
-                });
+                const fundraisersDiv = document.getElementById('fundraisers');
+                if (data.length === 0) {
+                    fundraisersDiv.innerHTML = 'No active fundraisers found.';
+                } else {
+                    data.forEach(fundraiser => {
+                        const div = document.createElement('div');
+                        div.className = "fundraiser";
+                        div.innerHTML = `
+                        <h2 class="caption">${fundraiser.CAPTION}</h2>
+                        <p><strong>Organiser:</strong> ${fundraiser.ORGANIZER}</p>
+                        <p><strong>City:</strong> ${fundraiser.CITY}</p>
+                        <p><strong>Category:</strong> ${fundraiser.CATEGORY}</p>
+                        <p><strong>Target Funding:</strong> $${fundraiser.TARGET_FUNDING} AUD</p>
+                        <p><strong>Current Funding:</strong> $${fundraiser.CURRENT_FUNDING} AUD</p>
+                        <p><strong>Status:</strong> ${fundraiser.ACTIVE ? 'Active' : 'Inactive'}</p>
+                        <button class="donate-btn">Donate Now</button>
+                            </div>`;
+                        
+                        fundraisersDiv.appendChild(div);
+                    });
+                }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error fetching fundraisers:', error);
+                fundraisersDiv.innerHTML = 'An error occurred while fetching the data. Please try again later.';
+            });
     </script>
+    
 </body>
+<footer>
+    <div class="footer-content">
+        <p>&copy; 2024 Fundme. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Us</a>
+        </div>
+    </div>
+</footer>
 </html>

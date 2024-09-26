@@ -1,0 +1,248 @@
+/* General body and page styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+/* Header styles */
+header {
+    background-color: #333;
+    padding: 10px 0;
+    text-align: left;
+    padding-left: 20px;
+}
+
+header h1 {
+    color: #5cb85c;
+    font-size: 24px;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Navbar styles */
+nav {
+    background-color: #333;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+nav ul li a:hover {
+    color: #5cb85c;
+}
+
+/* About Fundme section styles */
+.about-fundme {
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+    margin: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.about-fundme h2 {
+    color: #5cb85c;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.about-fundme p {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Button styles */
+.about-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.about-fundme .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #5cb85c;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.about-fundme .btn:hover {
+    background-color: #4cae4c;
+}
+
+.about-fundme .search-btn {
+    background-color: #007bff;
+}
+
+.about-fundme .search-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Page heading */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#fundraisers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;  
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Fundraiser container */
+.fundraiser {
+    background-color: #fff;
+    width: 45%; /* Two per row */
+    margin: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Use grid or flexbox to align the details side by side */
+.fundraiser .fundraiser-details {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    margin-top: 10px;
+}
+
+/* Styling for title and amount */
+.fundraiser h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+    flex: 2; 
+}
+
+.fundraiser p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* To align the funding amounts by proper space */
+.fundraiser .funding-info {
+    display: flex;
+    justify-content: space-between; 
+    width: 100%; 
+}
+
+.fundraiser .funding-info p {
+    margin: 0;
+    padding: 5px;
+    font-size: 16px;
+}
+
+/* Donate button */
+.donate-btn {
+    padding: 10px 15px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.donate-btn:hover {
+    background-color: #4cae4c;
+}
+
+/*  Need to put the fundraiser stay two per row on the small screen  */
+@media screen and (max-width: 768px) {
+    .fundraiser {
+        width: 100%; /* Put fundraisers on the top of other screen */
+    }
+}
+
+/* Footer Styles */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.footer-links {
+    margin-top: 10px;
+    display: flex;
+    gap: 15px;
+}
+
+.footer-links a {
+    color: #5cb85c;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-links a:hover {
+    color: #4cae4c;
+}
+

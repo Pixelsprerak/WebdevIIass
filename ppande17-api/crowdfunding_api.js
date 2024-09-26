@@ -1,11 +1,18 @@
 const express = require('express');
-const bodyParser = require('body-parser'); // Use consistent naming
-const db = require('./crowdfunding_db.js'); // Use correct import for db
+const bodyParser = require('body-parser'); 
+const cors = require('cors');
+const db = require('./crowdfunding_db.js'); 
 
 const app = express();
-app.use(bodyParser.json());  // Parse incoming JSON data
 
-// Get all active fundraisers
+// Enable CORS to connect with the API 
+app.use(cors({
+    origin: 'http://localhost:8080'  //  allowing the requests from  client-side server
+}));
+
+app.use(bodyParser.json());  
+
+
 app.get('/api/fundraisers', (req, res) => {
     const sql = 'SELECT * FROM FUNDRAISER WHERE ACTIVE = TRUE';
     db.query(sql, (err, results) => {
@@ -14,9 +21,9 @@ app.get('/api/fundraisers', (req, res) => {
         }
         res.json(results);
     });
-});
+});// code to take the all active fundraisers
 
-// Get all categories
+
 app.get('/api/categories', (req, res) => {
     const sql = 'SELECT * FROM CATEGORY';
     db.query(sql, (err, results) => {
@@ -25,36 +32,36 @@ app.get('/api/categories', (req, res) => {
         }
         res.json(results);
     });
-});
+}); // code to take the all categories
 
-// Get fundraisers by search criteria
+
 app.get('/api/search', (req, res) => {
     const { organizer, city, category } = req.query;
-    let sql = 'SELECT * FROM FUNDRAISER WHERE ACTIVE = TRUE';
+    let query = 'SELECT * FROM FUNDRAISER WHERE 1=1';  // Base query
     const params = [];
 
     if (organizer) {
-        sql += ' AND ORGANIZER LIKE ?';
+        query += ' AND ORGANIZER LIKE ?';
         params.push(`%${organizer}%`);
     }
     if (city) {
-        sql += ' AND CITY LIKE ?';
+        query += ' AND CITY LIKE ?';
         params.push(`%${city}%`);
     }
     if (category) {
-        sql += ' AND CATEGORY_ID = ?';
+        query += ' AND CATEGORY_ID = ?';
         params.push(category);
     }
 
-    db.query(sql, params, (err, results) => {
+    db.query(query, params, (err, results) => {
         if (err) {
-            return res.status(500).json({ error: 'Error retrieving search results' });
+            return res.status(500).json({ error: 'Error searching fundraisers' });
         }
         res.json(results);
     });
-});
+});////This is the code to search the fundraiser
 
-// Get fundraiser details by ID
+
 app.get('/api/fundraisers/:id', (req, res) => {
     const { id } = req.params;
     const sql = 'SELECT * FROM FUNDRAISER WHERE FUNDRAISER_ID = ? AND ACTIVE = TRUE';
@@ -64,10 +71,10 @@ app.get('/api/fundraisers/:id', (req, res) => {
         }
         res.json(results[0]);
     });
-});
+});//To get a specific fundraiser by ID
 
-// Set server port to 3000 or any valid port
-const port = 3000;  // Use a different port than 3306, which is used by MySQL
+
+const port = 3000;  
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+    console.log(`API server running on port ${port}`);
+});//starting the server in port 3000
